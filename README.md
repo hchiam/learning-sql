@@ -1,8 +1,7 @@
-# sqlSandbox
-My SQL sandbox. 
+# Learning SQL
 
-# tutorial:
+## tutorial:
 http://tutorialzine.com/2016/01/learn-sql-in-20-minutes/
 
-# tutorial:
+## tutorial:
 https://www.codecademy.com/courses/learn-sql/
