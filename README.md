@@ -10,4 +10,4 @@ Just one of the things I'm learning. https://github.com/hchiam/learning
 
 ## Node.js MySQL tutorial
 
-- https://www.w3schools.com/nodejs/nodejs_mysql.asp
+- https://github.com/hchiam/learning-sql/tree/master/node-mysql
