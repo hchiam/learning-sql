@@ -1,0 +1,15 @@
+{
+  "name": "node-mysql",
+  "version": "1.0.0",
+  "description": "<https://www.w3schools.com/nodejs/nodejs_mysql.asp>",
+  "main": "demo_db_connection.js",
+  "dependencies": {
+    "mysql": "github:mysqljs/mysql"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
