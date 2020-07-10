@@ -4,6 +4,10 @@
 
 Download MySQL: <https://dev.mysql.com/downloads/mysql>
 
+<https://dev.mysql.com/doc/mysql-osx-excerpt/8.0/en/osx-installation-pkg.html>
+
+<https://dev.mysql.com/doc/mysql-osx-excerpt/8.0/en/osx-installation-launchd.html>
+
 ```bash
 # npm init
 npm install mysql
