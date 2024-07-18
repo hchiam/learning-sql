@@ -45,3 +45,7 @@ SELECT
 FROM
   UNNEST([2,3,5,8,12]) AS val;
 ```
+
+https://dba.stackexchange.com/questions/283022/what-does-the-go-statement-do-in-sql-server
+- `GO` = end of scope = came from telling CLI that it can now send the server the batch of multiline SQL code
+- `;` separates lines in a batch and does not separate scope
