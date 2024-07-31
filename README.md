@@ -49,3 +49,11 @@ FROM
 https://dba.stackexchange.com/questions/283022/what-does-the-go-statement-do-in-sql-server
 - `GO` = end of scope = came from telling CLI that it can now send the server the batch of multiline SQL code
 - `;` separates lines in a batch and does not separate scope
+
+https://www.w3schools.com/sql/sql_delete.asp
+- ```sql
+  DELETE FROM table_name WHERE condition; --OK
+  ```
+- ```sql
+  DELETE FROM table_name; --likely BAD: will delete entire table
+  ```
