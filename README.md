@@ -14,7 +14,11 @@ Just one of the things I'm learning. https://github.com/hchiam/learning
 
 ## Miscellaneous notes
 
-UDF (user-defined function): https://cloud.google.com/bigquery/docs/reference/standard-sql/user-defined-functions:
+Here's an alternative diagram to using venn diagrams to understand SQL joins: https://www.reddit.com/r/SQL/comments/1bv88ht/please_use_these_instead_of_those_abominable_venn/
+
+UDF (user-defined function):
+
+- https://cloud.google.com/bigquery/docs/reference/standard-sql/user-defined-functions:
 
 temporary UDF:
 
