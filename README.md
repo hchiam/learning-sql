@@ -61,3 +61,6 @@ https://www.w3schools.com/sql/sql_delete.asp
 - ```sql
   DELETE FROM table_name; --likely BAD: will delete entire table
   ```
+
+https://www.youtube.com/watch?v=3JW732GrMdg
+- PostgreSQL technically can do a lot
