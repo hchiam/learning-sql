@@ -182,11 +182,41 @@ SELECT band_id, COUNT(band_id) FROM albums --to get how many albums each band ha
 GROUP BY band_id; --GROUP BY will "squish together" rows with same band_id, and then COUNT will count over those "squished together" rows
 --i.e., GROUP BY will "create" rows each with a unique band_id before COUNT is applied
 
+--AND NOW COMBINING A LOT OF THE ABOVE KNOWLEDGE TOGETHER IN THE NEXT FEW QUERIES:
+
 --and now we can build on the above query to show more useful info: return band_name instead of band_id:
 SELECT b.name AS band_name, COUNT(a.id) AS num_albums --get the final data we want with names that are self-documenting (and useful for an API)
 FROM bands AS b --LEFT JOIN because we still want to show bands with no albums
 LEFT JOIN albums AS a ON b.id = a.band_id
 GROUP BY b.id; --group by unique band id for COUNT to work properly within bands and not over the whole table
 --the above example shows you how to alias both column names and table names.
---i think i prefer reading starting from the "middle" of the query with the FROM and JOIN where the aliases are, so that i can understand the SELECT line that uses the aliases
+--i think i prefer reading/writing starting from FROM and JOIN where the aliases are, so that i can understand the SELECT line that uses the aliases
+--mnemonic: "start from FROM"
+
+--AND WHAT IF WE WANT THAT QUERY TO ALSO FILTER ON THE AGGREGATE FUNCTIONS?
+
+--WHERE won't work because WHERE is evaluated before GROUP BY which is evaluated before aggregate functions like COUNT:
+SELECT b.name AS band_name, COUNT(a.id) AS num_albums
+FROM bands AS b
+LEFT JOIN albums AS a ON b.id = a.band_id
+WHERE num_albums = 1 --adding this here won't work! why? WHERE is evaluated before GROUP BY
+GROUP BY b.id;
+
+--instead, use HAVING, which is like WHERE but is evaluated after the GROUP BY, so you can use aggregat function data inside of HAVING:
+SELECT b.name AS band_name, COUNT(a.id) AS num_albums
+FROM bands AS b
+LEFT JOIN albums AS a ON b.id = a.band_id
+--WHERE num_albums = 1 --adding this here won't work! why? WHERE is evaluated before GROUP BY
+GROUP BY b.id
+HAVING num_albums = 1;
+
+--and you can still use both WHERE and HAVING, with WHERE restricted to not using the aggregate function data:
+SELECT b.name AS band_name, COUNT(a.id) AS num_albums
+FROM bands AS b
+LEFT JOIN albums AS a ON b.id = a.band_id
+WHERE b.name = 'Deuce'
+GROUP BY b.id
+HAVING num_albums = 1;
 ```
+
+practice: https://github.com/WebDevSimplified/Learn-SQL (has solutions) (or [my backup repo of the exercises](https://github.com/hchiam/Learn-SQL-exercises-WDS))
