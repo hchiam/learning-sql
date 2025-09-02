@@ -82,4 +82,89 @@ CREATE TABLE albums (
   PRIMARY KEY (id),
   FOREIGN KEY (band_id) REFERENCES bands(id) --band_id references the bands TABLE's id PRIMARY KEY
 );
+
+INSERT INTO bands(name) --id is auto-incremented
+VALUES ('Iron Maiden');
+
+INSERT INTO bands(name)
+VALUES ('Deuce'), ('Avenged Sevenfold'), ('Ankor'); --batched inserted rows
+
+SELECT * FROM bands;
+
+SELECT * FROM bands LIMIT 2; --get the first two rows
+
+SELECT name FROM bands;
+
+SELECT id AS 'ID', --rename column with an 'alias', e.g. might be useful to rename to what name(s) an API expects
+  name AS 'Band Name'
+FROM bands;
+
+SELECT * FROM bands ORDER BY name; --ASC (ascending) is the default, you have to specify DESC (descending)
+
+SELECT * FROM bands ORDER BY name DESC;
+
+INSERT INTO albums (name, release_year, band_id)
+VALUES ('The Number of the Beast', 1985, 1),
+  ('Power Slave', 1984, 1),
+  ('Nightmare', 2018, 2),
+  ('Nightmare', 2010, 3),
+  ('Test Album', NULL, 3);
+
+SELECT * FROM albums;
+
+SELECT DISTINCT name FROM albums; --DISTINCT to de-dupe values like names in this case
+
+UPDATE albums
+SET release_year = 1982
+WHERE id = 1; --you can add a WHERE filter to almost any SQL statement
+
+SELECT * FROM albums
+WHERE release_year < 2000;
+
+SELECT * FROM albums
+WHERE release_year BETWEEN 2000 AND 2018;
+
+SELECT * FROM albums
+WHERE name LIKE '%er%' --'%' can mean any symbol or even empty, so SQL wildcards in '%er%' work like JS regex /.*er.*/
+  OR band_id = 2;
+
+SELECT * FROM albums
+WHERE release_year IS NULL;
+
+--DELETE FROM albums; --WARNING: THIS WILL DELETE THE ENTIRE TABLE!!!
+
+DELETE FROM albums
+WHERE id = 5;
+--SELECT * FROM albums;
+
+SELECT * FROM bands
+JOIN albums ON bands.id = albums.band_id;
+--INNER JOIN is the default for JOIN (in MySQL), and only returns matches between both tables - which seems like a reasonable default to make easier to type
+  --you'll most likely use JOIN (aka INNER JOIN)
+--LEFT JOIN will get bands (on the left side of the "JOIN" keyword) with no corresponding albums
+  --you'll more likely use LEFT JOIN than RIGHT JOIN
+--RIGHT JOIN will get albums (on the right side of the "JOIN" keyword) with no corresponding bands
+  --this is the same as LEFT JOIN but flipped, and so it might be harder to reason about
+
+--the following two queries output the same data, but with different orders of table columns:
+SELECT * FROM bands
+LEFT JOIN albums ON bands.id = albums.band_id;
+--id name              id name                   release_year band_id
+--1  Iron Maiden       1 The Number of the Beast 1982         1
+--1  Iron Maiden       2 Power Slave             1984         1
+--2  Deuce             3 Nightmare               2018         2
+--3  Avenged Sevenfold 4 Nightmare               2010         3
+--4  Ankor
+
+--and if you swap from LEFT to RIGHT and move bands to the right side of the RIGHT too,
+--you get the first two columns for bands moved to the right of the table:
+
+SELECT * FROM albums
+RIGHT JOIN bands ON bands.id = albums.band_id;
+--id name                    release_year band_id id name
+--1  The Number of the Beast 1982         1       1  Iron Maiden
+--2  Power Slave             1984         1       1  Iron Maiden
+--3  Nightmare               2018         2       2  Deuce
+--4  Nightmare               2010         3       3  Avenged Sevenfold
+--                                                4  Ankor
 ```
