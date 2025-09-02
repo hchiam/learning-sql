@@ -64,3 +64,22 @@ https://www.w3schools.com/sql/sql_delete.asp
 
 https://www.youtube.com/watch?v=3JW732GrMdg
 - PostgreSQL technically can do a lot
+
+Web Dev Simplified https://www.youtube.com/watch?v=p3qvj9hO_Bo
+```sql
+CREATE DATABASE record_company;
+USE record_company; --to run commands on this database
+CREATE TABLE bands (
+  id INT NOT NULL AUTO_INCREMENT, --AUTO_INCREMENT = don't have to do anything when adding a row
+  name VARCHAR(255) NOT NULL, --VARCHAR = variable length string with max length (#), and NOT NULL = always required to be filled
+  PRIMARY KEY (id) --to tell SQL which column is the primary key (unique "identifier"/"index") of each row
+);
+CREATE TABLE albums (
+  id INT NOT NULL AUTO_INCREMEMNT,
+  name VARCHAR(255) NOT NULL, --again, NOT NULL, because we never want this column/value to be empty
+  release_year INT, --this can be empty/null because we may not always have this info = optional
+  band_id INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (band_id) REFERENCES bands(id) --band_id references the bands TABLE's id PRIMARY KEY
+);
+```
