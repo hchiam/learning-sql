@@ -224,6 +224,17 @@ HAVING num_albums = 1;
 ```
 
 practice: https://github.com/WebDevSimplified/Learn-SQL (has solutions) (or [my backup repo of the exercises](https://github.com/hchiam/Learn-SQL-exercises-WDS))
+- for example, to get the number of songs for each band, given bands, albums, and songs:
+- ```sql
+  --using my mnemonic from earlier: "start from FROM", you think: bands -> albums -> songs -> group by band_id -> get band name and number of songs:
+  SELECT
+    bands.name AS 'Band',
+    COUNT(songs.id) AS 'Number of Songs'
+  FROM bands
+  JOIN albums ON bands.id = albums.band_id
+  JOIN songs ON albums.id = songs.album_id
+  GROUP BY albums.band_id;
+  ```
 
 https://stackoverflow.com/questions/2905292/where-vs-having
 - combining SO and WDS info: `WHERE` -> `GROUP BY` -> `SELECT` (and aggregate function data like from `AVG()` or `COUNT()`) -> `HAVING`
