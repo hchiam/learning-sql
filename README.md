@@ -65,7 +65,8 @@ https://www.w3schools.com/sql/sql_delete.asp
 https://www.youtube.com/watch?v=3JW732GrMdg
 - PostgreSQL technically can do a lot
 
-Web Dev Simplified https://www.youtube.com/watch?v=p3qvj9hO_Bo
+Web Dev Simplified
+- https://www.youtube.com/watch?v=p3qvj9hO_Bo
 ```sql
 CREATE DATABASE record_company;
 USE record_company; --to run commands on this database
@@ -95,6 +96,7 @@ SELECT * FROM bands LIMIT 2; --get the first two rows
 
 SELECT name FROM bands;
 
+--here's how you can alias column names: (you can also alias table names - see later below)
 SELECT id AS 'ID', --rename column with an 'alias', e.g. might be useful to rename to what name(s) an API expects
   name AS 'Band Name'
 FROM bands;
@@ -167,4 +169,24 @@ RIGHT JOIN bands ON bands.id = albums.band_id;
 --3  Nightmare               2018         2       2  Deuce
 --4  Nightmare               2010         3       3  Avenged Sevenfold
 --                                                4  Ankor
+
+SELECT AVG(release_year) FROM albums; --average is an example aggregate function that returns one value (technically one row with one column)
+--unless you use GROUP BY to scope the AVG to groups of rows instead of to all rows in the whole table
+
+--to get how many albums each band has, we canNOT just do this:
+SELECT band_id, COUNT(band_id) FROM albums;
+
+--we have to instead do this:
+
+SELECT band_id, COUNT(band_id) FROM albums --to get how many albums each band has
+GROUP BY band_id; --GROUP BY will "squish together" rows with same band_id, and then COUNT will count over those "squished together" rows
+--i.e., GROUP BY will "create" rows each with a unique band_id before COUNT is applied
+
+--and now we can build on the above query to show more useful info: return band_name instead of band_id:
+SELECT b.name AS band_name, COUNT(a.id) AS num_albums --get the final data we want with names that are self-documenting (and useful for an API)
+FROM bands AS b --LEFT JOIN because we still want to show bands with no albums
+LEFT JOIN albums AS a ON b.id = a.band_id
+GROUP BY b.id; --group by unique band id for COUNT to work properly within bands and not over the whole table
+--the above example shows you how to alias both column names and table names.
+--i think i prefer reading starting from the "middle" of the query with the FROM and JOIN where the aliases are, so that i can understand the SELECT line that uses the aliases
 ```
