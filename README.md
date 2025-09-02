@@ -202,7 +202,11 @@ LEFT JOIN albums AS a ON b.id = a.band_id
 WHERE num_albums = 1 --adding this here won't work! why? WHERE is evaluated before GROUP BY
 GROUP BY b.id;
 
---instead, use HAVING, which is like WHERE but is evaluated after the GROUP BY, so you can use aggregat function data inside of HAVING:
+--"order of operations": WHERE -> GROUP BY -> SELECT (and its aggregate functions) -> HAVING
+--https://stackoverflow.com/questions/2905292/where-vs-having
+--prepending EXPLAIN to queries can show "Extra data" says both use index, but "rows" says different numbers of rows
+
+--so instead use HAVING, which is WHERE but can be used on aggregate function data:
 SELECT b.name AS band_name, COUNT(a.id) AS num_albums
 FROM bands AS b
 LEFT JOIN albums AS a ON b.id = a.band_id
@@ -220,3 +224,24 @@ HAVING num_albums = 1;
 ```
 
 practice: https://github.com/WebDevSimplified/Learn-SQL (has solutions) (or [my backup repo of the exercises](https://github.com/hchiam/Learn-SQL-exercises-WDS))
+
+https://stackoverflow.com/questions/2905292/where-vs-having
+- combining SO and WDS info: `WHERE` -> `GROUP BY` -> `SELECT` (and aggregate function data like from `AVG()` or `COUNT()`) -> `HAVING`
+- you can use `EXPLAIN` to get data on queries:
+- ```sql
+  --note how the "Extra" info for both says "Using index", but "rows" show 5 vs 10:
+  
+  EXPLAIN SELECT `value` v FROM `table` WHERE `value`>5;
+  +----+-------------+-------+-------+---------------+-------+---------+------+------+--------------------------+
+  | id | select_type | table | type  | possible_keys | key   | key_len | ref  | rows | Extra                    |
+  +----+-------------+-------+-------+---------------+-------+---------+------+------+--------------------------+
+  |  1 | SIMPLE      | table | range | value         | value | 4       | NULL |    5 | Using where; Using index |
+  +----+-------------+-------+-------+---------------+-------+---------+------+------+--------------------------+
+  
+  EXPLAIN SELECT `value` v FROM `table` having `value`>5;
+  +----+-------------+-------+-------+---------------+-------+---------+------+------+-------------+
+  | id | select_type | table | type  | possible_keys | key   | key_len | ref  | rows | Extra       |
+  +----+-------------+-------+-------+---------------+-------+---------+------+------+-------------+
+  |  1 | SIMPLE      | table | index | NULL          | value | 4       | NULL |   10 | Using index |
+  +----+-------------+-------+-------+---------------+-------+---------+------+------+-------------+
+  ```
